@@ -4,7 +4,8 @@
 
 本项目是WPF按钮控件的综合演示程序，基于.NET 8.0，展示了WPF中Button控件的各种用法、样式、事件和自定义功能。
 
-image.png
+![image](https://github.com/user-attachments/assets/48a9963e-62a7-431e-a0d2-0e7cfba4abd6)
+
 ## 功能特性
 
 该演示应用程序包含以下主要功能区域：
