@@ -1,0 +1,293 @@
+<Window x:Class="ButtonDemo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ButtonDemo"
+        mc:Ignorable="d"
+        Title="WPF按钮控件演示" Height="650" Width="800">
+    
+    <Window.Resources>
+        <!-- 定义蓝色按钮样式 -->
+        <Style x:Key="BlueButton" TargetType="Button">
+            <Setter Property="Background" Value="DarkBlue" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Padding" Value="10,5" />
+            <Setter Property="BorderBrush" Value="LightBlue" />
+            <Setter Property="BorderThickness" Value="2" />
+        </Style>
+        
+        <!-- 定义带动画效果的按钮样式 -->
+        <Style x:Key="AnimatedButton" TargetType="Button">
+            <Setter Property="Background" Value="DarkBlue" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Padding" Value="10,5" />
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <ScaleTransform ScaleX="1" ScaleY="1" />
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="RoyalBlue" />
+                    <Setter Property="Foreground" Value="Yellow" />
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="Navy" />
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleX="0.95" ScaleY="0.95" />
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.5" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+        <!-- 定义圆角按钮样式 -->
+        <Style x:Key="RoundedButton" TargetType="Button">
+            <Setter Property="Background" Value="#FF3333" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Padding" Value="15,7" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="20"
+                                BorderBrush="#AA0000"
+                                BorderThickness="1"
+                                Padding="{TemplateBinding Padding}">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="2" Opacity="0.3" />
+                            </Border.Effect>
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FF6666" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#CC0000" />
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <TranslateTransform Y="1" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    
+    <ScrollViewer>
+        <StackPanel Margin="20">
+            <TextBlock Text="WPF按钮控件详解 - 示例程序" 
+                      FontSize="24" 
+                      FontWeight="Bold" 
+                      Margin="0,0,0,20"
+                      HorizontalAlignment="Center"/>
+
+            <!-- 基本按钮 -->
+            <GroupBox Header="基本按钮" Margin="0,0,0,15">
+                <WrapPanel Margin="10">
+                    <Button Content="标准按钮" 
+                          Margin="5" 
+                          Click="StandardButton_Click"/>
+                    
+                    <Button Content="IsDefault=True" 
+                          Margin="5"
+                          IsDefault="True"
+                          Click="DefaultButton_Click"/>
+                    
+                    <Button Content="IsCancel=True" 
+                          Margin="5"
+                          IsCancel="True"
+                          Click="CancelButton_Click"/>
+                    
+                    <Button Margin="5" 
+                          Width="120"
+                          IsEnabled="False">
+                        <TextBlock Text="禁用的按钮"/>
+                    </Button>
+                </WrapPanel>
+            </GroupBox>
+            
+            <!-- 内容为复杂对象的按钮 -->
+            <GroupBox Header="复杂内容按钮" Margin="0,0,0,15">
+                <WrapPanel Margin="10">
+                    <Button Margin="5" Padding="5">
+                        <StackPanel Orientation="Horizontal">
+                            <Ellipse Width="20" Height="20" Fill="Green" Margin="0,0,5,0"/>
+                            <TextBlock Text="带图标的按钮"/>
+                        </StackPanel>
+                    </Button>
+                    
+                    <Button Margin="5" Padding="5">
+                        <StackPanel>
+                            <TextBlock Text="多行内容" HorizontalAlignment="Center"/>
+                            <TextBlock Text="按钮示例" HorizontalAlignment="Center" FontStyle="Italic"/>
+                        </StackPanel>
+                    </Button>
+                    
+                    <Button Margin="5" Padding="5" Width="80" Height="50">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="保存" FontWeight="Bold" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Ctrl+S" Grid.Row="1" FontSize="10" HorizontalAlignment="Center"/>
+                        </Grid>
+                    </Button>
+                </WrapPanel>
+            </GroupBox>
+            
+            <!-- 样式化按钮 -->
+            <GroupBox Header="样式化按钮" Margin="0,0,0,15">
+                <WrapPanel Margin="10">
+                    <Button Content="蓝色按钮" 
+                          Style="{StaticResource BlueButton}" 
+                          Margin="5"/>
+                    
+                    <Button Content="动画按钮" 
+                          Style="{StaticResource AnimatedButton}" 
+                          Margin="5"/>
+                    
+                    <Button Content="圆角按钮" 
+                          Style="{StaticResource RoundedButton}" 
+                          Margin="5"/>
+                    
+                    <Button Margin="5" Background="Transparent" BorderThickness="0">
+                        <Button.Content>
+                            <Border Width="40" Height="40">
+                                <Border.Background>
+                                    <RadialGradientBrush>
+                                        <GradientStop Color="LightGreen" Offset="0"/>
+                                        <GradientStop Color="DarkGreen" Offset="1"/>
+                                    </RadialGradientBrush>
+                                </Border.Background>
+                                <TextBlock Text="渐变" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </Button.Content>
+                    </Button>
+                    
+                    <!-- 添加自定义圆形按钮 -->
+                    <local:CircleButton Content="C" 
+                                       Radius="50" 
+                                       CircleFill="Purple" 
+                                       HoverFill="MediumPurple"
+                                       Margin="5"
+                                       Click="CircleButton_Click"/>
+                                       
+                    <local:CircleButton Content="+" 
+                                       Radius="40" 
+                                       CircleFill="Green" 
+                                       HoverFill="LightGreen"
+                                       Margin="5"
+                                       FontSize="20"/>
+                </WrapPanel>
+            </GroupBox>
+            
+            <!-- 按钮类型 -->
+            <GroupBox Header="按钮类型" Margin="0,0,0,15">
+                <WrapPanel Margin="10">
+                    <Button Content="标准按钮" 
+                          Margin="5"
+                          Width="100"/>
+                    
+                    <ToggleButton Content="Toggle按钮" 
+                               Margin="5"
+                               Width="100"
+                               x:Name="toggleBtn"
+                               Checked="ToggleButton_Checked"
+                               Unchecked="ToggleButton_Unchecked"/>
+                    
+                    <RepeatButton Content="重复按钮" 
+                                Margin="5"
+                                Width="100"
+                                Delay="500"
+                                Interval="100"
+                                Click="RepeatButton_Click"/>
+                    
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <RadioButton Content="选项A" Margin="0,0,5,0" GroupName="Options" IsChecked="True"/>
+                        <RadioButton Content="选项B" Margin="0,0,5,0" GroupName="Options"/>
+                        <RadioButton Content="选项C" GroupName="Options"/>
+                    </StackPanel>
+                </WrapPanel>
+            </GroupBox>
+            
+            <!-- 命令按钮 -->
+            <GroupBox Header="命令绑定" Margin="0,0,0,15">
+                <WrapPanel Margin="10">
+                    <Button Content="复制" 
+                          Command="ApplicationCommands.Copy" 
+                          Margin="5"/>
+                    
+                    <Button Content="粘贴" 
+                          Command="ApplicationCommands.Paste" 
+                          Margin="5"/>
+                    
+                    <Button Content="自定义命令" 
+                          Command="{Binding CustomMvvmCommand}"
+                          Margin="5"/>
+                </WrapPanel>
+            </GroupBox>
+            
+            <!-- 按钮事件 -->
+            <GroupBox Header="按钮事件" Margin="0,0,0,15">
+                <StackPanel Margin="10">
+                    <Button Content="点击显示消息" 
+                          Margin="5"
+                          Click="MessageButton_Click"/>
+                    
+                    <TextBlock x:Name="eventText" 
+                             Margin="5"
+                             Text="事件信息将显示在这里"
+                             HorizontalAlignment="Center"/>
+                    
+                    <Button Content="交互事件测试" 
+                          Margin="5"
+                          PreviewMouseDown="EventButton_PreviewMouseDown"
+                          MouseDown="EventButton_MouseDown"
+                          PreviewMouseUp="EventButton_PreviewMouseUp"
+                          MouseUp="EventButton_MouseUp"
+                          Click="EventButton_Click"/>
+                </StackPanel>
+            </GroupBox>
+            
+            <!-- 自定义按钮控件 -->
+            <GroupBox Header="自定义按钮控件" Margin="0,0,0,15">
+                <StackPanel Margin="10">
+                    <TextBlock Text="评分控件示例 (使用按钮实现)" 
+                             FontWeight="Bold" 
+                             Margin="0,0,0,5"/>
+                    
+                    <local:RatingControl x:Name="ratingControl" 
+                                       Value="3" 
+                                       Maximum="5"
+                                       Tag="请评分:"
+                                       Margin="10"/>
+                    
+                    <TextBlock Text="{Binding Value, ElementName=ratingControl, StringFormat=当前评分: {0}}" 
+                             HorizontalAlignment="Center"
+                             Margin="0,5,0,0"/>
+                    
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+                        <Button Content="重置评分" Click="ResetRating_Click" Margin="5"/>
+                        <Button Content="设为5星" Click="SetMaxRating_Click" Margin="5"/>
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+    </ScrollViewer>
+</Window> 
